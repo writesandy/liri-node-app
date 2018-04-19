@@ -36,33 +36,32 @@ switch (command) {
         return console.log('Error occurred: ' + err);
       }
  
-console.log(data); 
+console.log(data.tracks.items[0]); 
 });
 
 
 break;
 
-  // case 'movie-this':
-  // var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy";
+  case 'movie-this':
+  for (i = 3; i < selection.length; i++ ) {
+    if(i > 3 && i < selection.length) {
+      movieName = movieName + '+' + selection[i];
+    } else {
+        movieName += selection[i];
+    }
+  }
 
-  // for (i = 3; i < selection.length; i++ ) {
-  //   if(i > 3 && i < selection.length) {
-  //     movieName = movieName + '+' + selection[i];
-  //   } else {
-  //       movieName += selection[i];
-  //   }
-  // }
+  var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy";
+  console.log(movieName);
+  request(queryUrl, function(err, response, body){
+    if(err) {
+      throw err;
+    } else {
+    console.log(JSON.parse(body).Year);
+    }
+  });
 
-  // console.log(movieName);
-  // request(queryUrl, function(err, response, body){
-  //   if(err) {
-  //     throw err;
-  //   } else {
-  //   console.log(JSON.parse(body).Year);
-  //   }
-  // });
-
-  // break;
+  break;
   
 }
    
