@@ -18,19 +18,26 @@ let movieName = "";
 let song = "";
 
 switch (command) {
-  // case 'my-tweets':
-  // var params = {screen_name: 'writeMeFam',
-  //               count: 20};
-  // client.get('statuses/user_timeline', params, function(error, tweets, response) {
-  //   if (!error) {
-  //       for (i=0; i < tweets.length; i++){
-  //         console.log(tweets[i].text + " " + tweets[i].created_at)
-  //       }
-  //   }
-  // });
-  // break;
+  case 'my-tweets':
+  var params = {screen_name: 'writeMeFam',
+                count: 20};
+  client.get('statuses/user_timeline', params, function(error, tweets, response) {
+    if (!error) {
+        for (i=0; i < tweets.length; i++){
+          console.log(tweets[i].text + " " + tweets[i].created_at)
+        }
+    }
+  });
+  break;
 
   case 'spotify-this-song':
+  for (i = 3; i < selection.length; i++ ) {
+    if(i > 3 && i < selection.length) {
+      song = song + '+' + selection[i];
+    } else {
+        song += selection[i];
+    }
+  }
     spotify.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
       if (err) {
         return console.log('Error occurred: ' + err);
@@ -57,7 +64,7 @@ break;
     if(err) {
       throw err;
     } else {
-    console.log(JSON.parse(body).Year);
+    console.log(JSON.parse(body));
     }
   });
 
