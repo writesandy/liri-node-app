@@ -2,23 +2,16 @@
 
 require("dotenv").config();
 var keys = require('./keys');
-var spotify = require('node-spotify-api');
-var twitter = require('twitter');
+var Spotify = require('node-spotify-api');
+var Twitter = require('twitter');
 var request = require('request');
+var fs = require('fs');
+
+var spotify = new Spotify(keys.spotify);
+var client = new Twitter(keys.twitter);
 
 
-
-var spotify = new spotify(keys.spotify);
-var client = new twitter(keys.twitter);
-
-let command = process.argv[2];
-let selection = process.argv;
-
-let movieName = "";
-let song = "";
-
-switch (command) {
-  case 'my-tweets':
+let getTweets = function(){
   var params = {screen_name: 'writeMeFam',
                 count: 20};
   client.get('statuses/user_timeline', params, function(error, tweets, response) {
@@ -28,38 +21,26 @@ switch (command) {
         }
     }
   });
-  break;
+};
 
-  case 'spotify-this-song':
-  for (i = 3; i < selection.length; i++ ) {
-    if(i > 3 && i < selection.length) {
-      song = song + '+' + selection[i];
-    } else {
-        song += selection[i];
-    }
-  }
-    spotify.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
+let getSpotify = function (selection){
+
+    spotify.search({ type: 'track', query: selection }, function(err, data) {
       if (err) {
         return console.log('Error occurred: ' + err);
       }
- 
-console.log(data.tracks.items[0]); 
+      console.log(data.tracks.items[0].name);
+      // for (var i=0; i < data.tracks.items.length; i++){
+      //   console.log(data.tracks.items[i].name);
+      // }
+
+
 });
+};
 
-
-break;
-
-  case 'movie-this':
-  for (i = 3; i < selection.length; i++ ) {
-    if(i > 3 && i < selection.length) {
-      movieName = movieName + '+' + selection[i];
-    } else {
-        movieName += selection[i];
-    }
-  }
-
-  var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy";
-  console.log(movieName);
+let getMovie = function(selection) {
+  var queryUrl = "http://www.omdbapi.com/?t=" + selection + "&y=&plot=short&apikey=trilogy";
+  console.log(selection);
   request(queryUrl, function(err, response, body){
     if(err) {
       throw err;
@@ -68,12 +49,52 @@ break;
     }
   });
 
+};
+
+let getText = function() {
+
+    fs.readFile('random.txt', 'utf8', function(err, data){
+      console.log(data);
+      var something = data.split(',');
+      if(something.length === 2) {
+        controller(something[0], something[1]);
+      } else {
+        controller(something[0]);
+      }
+    })
+
+}
+
+
+let controller = function(command,selection) {
+
+switch (command) {
+  case 'my-tweets':
+    getTweets();
   break;
-  
+
+  case 'spotify-this-song':
+    getSpotify(selection);
+
+  break;
+
+  case 'movie-this':
+
+    getMovie(selection);
+
+  break;
+
+  case 'do-what-it-says':
+    getText();
+
+    break;
+ default:
+ console.log('do not recognize that command');
 }
    
+};
 
-
-
-
+let command = process.argv[2];
+let selection = process.argv[3];
+controller(command,selection);
 
