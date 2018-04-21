@@ -32,10 +32,7 @@ let getSpotify = function (selection){
       console.log("Song Name: " +data.tracks.items[0].name);
       console.log("Artist Name: "+data.tracks.items[0].artists[0].name);
       console.log("Album Name: " +data.tracks.items[0].album.name);    
-      console.log("Listen on Spotify" +data.tracks.items[0].external_urls.spotify);
-
-      // }
-
+      console.log("Listen on Spotify: " +data.tracks.items[0].external_urls.spotify);
 
 });
 };
