@@ -29,7 +29,11 @@ let getSpotify = function (selection){
       if (err) {
         return console.log('Error occurred: ' + err);
       }
-      console.log(data.tracks.items[0].name);
+      console.log("Song Name: " +data.tracks.items[0].name);
+
+      console.log("Artist Name: "+data.tracks.items[0].artists[0].name);
+      console.log("Album Name: " +data.tracks.items[0].album.name);    
+      console.log("Listen on Spotify" +data.tracks.items[0].external_urls.spotify);
       // for (var i=0; i < data.tracks.items.length; i++){
       //   console.log(data.tracks.items[i].name);
       // }
@@ -40,12 +44,22 @@ let getSpotify = function (selection){
 
 let getMovie = function(selection) {
   var queryUrl = "http://www.omdbapi.com/?t=" + selection + "&y=&plot=short&apikey=trilogy";
-  console.log(selection);
   request(queryUrl, function(err, response, body){
     if(err) {
       throw err;
-    } else {
-    console.log(JSON.parse(body));
+
+    } else if (!selection) {
+
+      console.log("If you haven't watched 'Mr. Nobody, then you should: http://www.imdb.com/title/tt0485947/");
+      console.log("It's on Netflix");
+
+    } else  {
+      console.log(JSON.parse(body).Title + " was released in " +JSON.parse(body).Year + " and produced in " +JSON.parse(body).Country);
+      console.log(JSON.parse(body).Title + " IMDB rating is " +JSON.parse(body).imdbRating+ " and the ID is: " +JSON.parse(body).imdbID);
+      console.log('Available in languages: ' +JSON.parse(body).Language);
+      console.log(JSON.parse(body).Ratings[1].Source +" rating: " +JSON.parse(body).Ratings[1].Value);
+      console.log('The movie starred: ' +JSON.parse(body).Actors)
+      console.log('Plot: ' +JSON.parse(body).Plot);
     }
   });
 
@@ -64,7 +78,6 @@ let getText = function() {
     })
 
 }
-
 
 let controller = function(command,selection) {
 
@@ -89,7 +102,11 @@ switch (command) {
 
     break;
  default:
- console.log('do not recognize that command');
+ console.log('Enter one of these choices to play:');
+ console.log('my-tweets: give you a list of my recent tweets');
+ console.log('spotify-this-song "song name"');
+ console.log('movie-this "movie name"');
+ console.log('do-what-it-says');
 }
    
 };
