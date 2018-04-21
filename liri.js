@@ -30,12 +30,10 @@ let getSpotify = function (selection){
         return console.log('Error occurred: ' + err);
       }
       console.log("Song Name: " +data.tracks.items[0].name);
-
       console.log("Artist Name: "+data.tracks.items[0].artists[0].name);
       console.log("Album Name: " +data.tracks.items[0].album.name);    
       console.log("Listen on Spotify" +data.tracks.items[0].external_urls.spotify);
-      // for (var i=0; i < data.tracks.items.length; i++){
-      //   console.log(data.tracks.items[i].name);
+
       // }
 
 
