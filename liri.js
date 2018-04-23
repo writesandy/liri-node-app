@@ -24,11 +24,10 @@ let getTweets = function(){
 };
 
 let getSpotify = function (selection){
-
     spotify.search({ type: 'track', query: selection }, function(err, data) {
       if (err) {
         return console.log('Error occurred: ' + err);
-      }
+      } else
       console.log("Song Name: " +data.tracks.items[0].name);
       console.log("Artist Name: "+data.tracks.items[0].artists[0].name);
       console.log("Album Name: " +data.tracks.items[0].album.name);    
@@ -44,7 +43,7 @@ let getMovie = function(selection) {
       throw err;
 
     } else if (!selection) {
-
+      getMovie("Mr. Nobody");
       console.log("If you haven't watched 'Mr. Nobody, then you should: http://www.imdb.com/title/tt0485947/");
       console.log("It's on Netflix");
 
@@ -98,7 +97,7 @@ switch (command) {
     break;
  default:
  console.log('Enter one of these choices to play:');
- console.log('my-tweets: give you a list of my recent tweets');
+ console.log('my-tweets: presents a list of my recent tweets');
  console.log('spotify-this-song "song name"');
  console.log('movie-this "movie name"');
  console.log('do-what-it-says');
