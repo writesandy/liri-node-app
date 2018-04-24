@@ -24,15 +24,18 @@ let getTweets = function(){
 };
 
 let getSpotify = function (selection){
+  if (!selection) {
+    selection = "Radioactive";
+  }
     spotify.search({ type: 'track', query: selection }, function(err, data) {
       if (err) {
         return console.log('Error occurred: ' + err);
-      } else
+      } else {
       console.log("Song Name: " +data.tracks.items[0].name);
       console.log("Artist Name: "+data.tracks.items[0].artists[0].name);
       console.log("Album Name: " +data.tracks.items[0].album.name);    
       console.log("Listen on Spotify: " +data.tracks.items[0].external_urls.spotify);
-
+      }
 });
 };
 
